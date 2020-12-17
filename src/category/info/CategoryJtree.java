@@ -5,7 +5,10 @@
  */
 package category.info;
 
+import category.DAO.CategoryDAO;
+import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import product.entities.Category;
 
 /**
  *
@@ -13,16 +16,29 @@ import javax.swing.tree.DefaultTreeModel;
  */
 public class CategoryJtree extends javax.swing.JFrame {
 
+    private CategoryDAO categoryDAO = new CategoryDAO();
     /**
      * Creates new form CategoryJtree
      */
     public CategoryJtree() {
         initComponents();
+        
+        loadJtree();
+        
     }
     
     public void loadJtree(){
-        DefaultTreeModel defaultTreeModel = (DefaultTreeModel) tblProduct.getModel();
+        DefaultTreeModel defaultTreeModel = (DefaultTreeModel) jTree1.getModel();
         
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode("Danh mục");
+        
+        for (Category category : categoryDAO.listCategory()) {
+            DefaultMutableTreeNode  treeNode = new DefaultMutableTreeNode(category);
+            treeNode.setUserObject(category);
+            root.add(treeNode);
+        }
+        defaultTreeModel.setRoot(root);
+        jTree1.setModel(defaultTreeModel);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -42,6 +58,16 @@ public class CategoryJtree extends javax.swing.JFrame {
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("root");
         jTree1.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        jTree1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTree1MouseClicked(evt);
+            }
+        });
+        jTree1.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
+            public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
+                jTree1ValueChanged(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTree1);
 
         tblProduct.setModel(new javax.swing.table.DefaultTableModel(
@@ -60,8 +86,8 @@ public class CategoryJtree extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 502, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 539, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -72,6 +98,16 @@ public class CategoryJtree extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jTree1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTree1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTree1MouseClicked
+
+    private void jTree1ValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_jTree1ValueChanged
+        // TODO add your handling code here:
+        DefaultMutableTreeNode selectNode = (DefaultMutableTreeNode) jTree1.getSelectionPath().getLastPathComponent();
+        System.out.println(((Category) selectNode.getUserObject()).getId());
+    }//GEN-LAST:event_jTree1ValueChanged
 
     /**
      * @param args the command line arguments
@@ -84,7 +120,7 @@ public class CategoryJtree extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
