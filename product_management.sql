@@ -92,3 +92,11 @@ AS
 BEGIN 
 	DELETE FROM tblProduct WHERE id = @id
 END
+
+GO
+
+CREATE PROC listCategory
+AS
+BEGIN 
+	SELECT * FROM tblCategory
+END
