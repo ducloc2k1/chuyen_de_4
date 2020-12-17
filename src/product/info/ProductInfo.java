@@ -5,16 +5,15 @@
  */
 package product.info;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JComboBox;
-import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -44,7 +43,6 @@ public class ProductInfo extends javax.swing.JFrame {
                 details();
             }
         });
-//        jComboBox1.getSelectedItem().addList
         try {
             CallableStatement cs = conn.prepareCall("Select * From tblCategory");
             ResultSet rs = cs.executeQuery();
@@ -58,8 +56,6 @@ public class ProductInfo extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(ProductInfo.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-//        jComboBox1.addItem(item);
         loadProduct();
      }
 
@@ -69,7 +65,7 @@ public class ProductInfo extends javax.swing.JFrame {
         defaultTableModel.setRowCount(0);
         for (Product product : data) {
             defaultTableModel.addRow(new Object[]{product.getMaHH(), product.getTenHH(), product.getNsx(),
-                product.getSoLuong(), product.getGiaGoc(), product.getVat()});
+                product.getSoLuong(), product.getGiaGoc(), product.getVat(), product.getCategory_id()});
         }
         tblProduct.setModel(defaultTableModel);
     }
@@ -86,6 +82,7 @@ public class ProductInfo extends javax.swing.JFrame {
             jTxtQuantity.setText(String.valueOf(product.getSoLuong()));
             jTxtPrice.setText(String.valueOf(product.getGiaGoc()));
             jTxtVAT.setText(String.valueOf(product.getVat()));
+//            jComboBox1.setSelectedItem(product);
         }
     }
 
@@ -157,7 +154,7 @@ public class ProductInfo extends javax.swing.JFrame {
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jTxtName, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -217,8 +214,8 @@ public class ProductInfo extends javax.swing.JFrame {
                 .addGap(88, 88, 88)
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTxtVAT, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addComponent(jTxtVAT, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -245,7 +242,7 @@ public class ProductInfo extends javax.swing.JFrame {
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jTxtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
             .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
@@ -281,7 +278,7 @@ public class ProductInfo extends javax.swing.JFrame {
                 .addComponent(jLabel5)
                 .addGap(72, 72, 72)
                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(433, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -333,11 +330,10 @@ public class ProductInfo extends javax.swing.JFrame {
 
         tblProduct.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
-                "Mã", "Tên", "NSX", "Số lương", "Giá", "VAT"
+                "Mã", "Tên", "NSX", "Số lương", "Giá", "VAT", "Category Id"
             }
         ));
         jScrollPane1.setViewportView(tblProduct);
@@ -431,8 +427,9 @@ public class ProductInfo extends javax.swing.JFrame {
     }//GEN-LAST:event_jBtnAddActionPerformed
 
     private void jBtnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSaveActionPerformed
+        Category category = (Category) jComboBox1.getSelectedItem();
         Product product = new Product(jTxtId.getText(), jTxtName.getText(), jTxtProducer.getText(), Integer.parseInt(jTxtQuantity.getText()),
-                Float.parseFloat(jTxtPrice.getText()), Float.parseFloat(jTxtVAT.getText()));
+                Float.parseFloat(jTxtPrice.getText()), Float.parseFloat(jTxtVAT.getText()), category.getId());
         if (edit) {
             productDAO.updateProduct(product);
         } else {
