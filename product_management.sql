@@ -6,6 +6,15 @@ USE product_management
 
 GO
 
+CREATE TABLE tblCategory
+(
+	id INT PRIMARY KEY IDENTITY(1,1),
+	name VARCHAR(50),
+	status BIT
+)
+
+GO
+
 CREATE TABLE tblProduct
 (
 	id VARCHAR(50) PRIMARY KEY,
@@ -19,16 +28,6 @@ CREATE TABLE tblProduct
 
 GO
 
-CREATE TABLE tblCategory
-(
-	id INT PRIMARY KEY IDENTITY(1,1),
-	name VARCHAR(50),
-	status BIT
-)
-
-
-GO
-
 SELECT * FROM tblProduct WHERE id = 'SP01'
 
 GO
@@ -39,11 +38,12 @@ CREATE PROC Add_New_Product
 	@producer VARCHAR(255),
 	@quantity INT,
 	@price FLOAT,
-	@vat FLOAT
+	@vat FLOAT,
+	@category_id INT
 AS
 BEGIN
-	INSERT INTO tblProduct(id,name,producer,quantity,price,vat) 
-	VALUES(@id,@name,@producer,@quantity,@price,@vat)
+	INSERT INTO tblProduct(id,name,producer,quantity,price,vat,category_id) 
+	VALUES(@id,@name,@producer,@quantity,@price,@vat,@category_id)
 END
 
 GO
@@ -62,7 +62,8 @@ CREATE PROC Update_Product
 	@producer VARCHAR(255),
 	@quantity INT,
 	@price FLOAT,
-	@vat FLOAT
+	@vat FLOAT,
+	@category_id INT
 AS
 BEGIN
 	UPDATE tblProduct 
@@ -70,7 +71,8 @@ BEGIN
 		producer = @producer,
 		quantity = @quantity,
 		price = @price,
-		vat = @vat
+		vat = @vat,
+		category_id = @category_id
 	WHERE id = @id
 END
 GO

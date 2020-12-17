@@ -21,17 +21,19 @@ public class Product {
     private int soLuong;
     private float giaGoc;
     private float vat;
+    private int category_id;
 
     public Product() {
     }
 
-    public Product(String maHH, String tenHH, String nsx, int soLuong, float giaGoc, float vat) {
+    public Product(String maHH, String tenHH, String nsx, int soLuong, float giaGoc, float vat, int category_id) {
         this.maHH = maHH;
         this.tenHH = tenHH;
         this.nsx = nsx;
         this.soLuong = soLuong;
         this.giaGoc = giaGoc;
         this.vat = vat;
+        this.category_id = category_id;
     }
 
     public String getMaHH() {
@@ -82,79 +84,13 @@ public class Product {
         this.vat = vat;
     }
 
-    @Override
-    public String toString() {
-        return "maHH=" + maHH + ", tenHH=" + tenHH + ", nsx=" + nsx + ", soLuong=" + soLuong + ", giaGoc=" + giaGoc + ", vat=" + vat;
+    public int getCategory_id() {
+        return category_id;
     }
+
+    public void setCategory_id(int category_id) {
+        this.category_id = category_id;
+    }
+
     
-    public void input(){
-        String name = "^[A-Z0-9 ]{7,}$";
-        String producer = ".{1,}";
-        Scanner sc = new Scanner(System.in);
-        while (true) {            
-            System.out.println("Nhập tên: ");
-            this.tenHH = sc.nextLine();
-            if (Pattern.matches(name, this.tenHH)) {
-                break;
-            }else{
-                System.out.println("Tên in hoa, >6 kí tự");
-            }
-        }
-        
-        while (true) {            
-            System.out.println("Nhập giá: ");
-            try {
-                this.giaGoc = Float.parseFloat(sc.nextLine());
-                if (this.giaGoc >= 1000) {
-                    break;
-                }else{
-                    System.out.println("Giá gốc >= 1000");
-                }
-            } catch (Exception e) {
-                System.out.println("Kiểu dữ liệu không hợp lệ !!!");
-            }
-        }
-        
-        while (true) {            
-        System.out.println("Nhập số lượng: ");
-            try {
-                this.soLuong = Integer.parseInt(sc.nextLine());
-                if (this.soLuong > 0) {
-                    break;
-                }else{
-                    System.out.println("Số lượng > 0");
-                }
-            } catch (Exception e) {
-                System.out.println("Kiểu dữ liệu không hợp lệ !!!");
-            }
-        }
-        
-        while (true) {            
-            System.out.println("Nhập nhà sản xuất: ");
-            this.nsx = sc.nextLine();
-            if (Pattern.matches(producer, this.nsx)) {
-                break;
-            }else{
-                System.out.println("Không được bỏ trống !!!");
-            }
-        }
-        
-        while (true) {            
-            try {
-                System.out.println("Nhập VAT: ");
-                this.vat = Float.parseFloat(sc.nextLine());
-                if (this.vat > 0 && this.vat < 15) {
-                    break;
-                }else{
-                    System.out.println("0 < VAT < 15");
-                }
-            } catch (Exception e) {
-            }
-        }
-    }
-    
-    public static void main(String[] args) {
-        Product product = new Product();
-        product.input();
-    }
 }

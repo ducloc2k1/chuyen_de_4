@@ -35,6 +35,7 @@ public class ProductDAO implements IProductDAO {
                     product.setNsx(resultSet.getString("producer"));
                     product.setSoLuong(resultSet.getInt("quantity"));
                     product.setVat(resultSet.getFloat("vat"));
+                    product.setCategory_id(resultSet.getInt("category_id"));
                     products.add(product);
                 }
                 return products;
@@ -50,9 +51,9 @@ public class ProductDAO implements IProductDAO {
     @Override
     public void addProduct(Product product) {
         if (product != null) {
-            SqlQuery.executeUpdate("{call Add_New_Product(?,?,?,?,?,?)}", product.getMaHH(), product.getTenHH(),
+            SqlQuery.executeUpdate("{call Add_New_Product(?,?,?,?,?,?,?)}", product.getMaHH(), product.getTenHH(),
                     product.getNsx(), product.getSoLuong(),
-                    product.getGiaGoc(), product.getVat());
+                    product.getGiaGoc(), product.getVat(), product.getCategory_id());
         }
     }
 
@@ -79,9 +80,9 @@ public class ProductDAO implements IProductDAO {
     @Override
     public void updateProduct(Product product) {
         if (product != null) {
-            SqlQuery.executeUpdate("{call Update_Product(?,?,?,?,?,?)}", product.getMaHH(), product.getTenHH(),
+            SqlQuery.executeUpdate("{call Update_Product(?,?,?,?,?,?,?)}", product.getMaHH(), product.getTenHH(),
                     product.getNsx(), product.getSoLuong(),
-                    product.getGiaGoc(), product.getVat());
+                    product.getGiaGoc(), product.getVat(), product.getCategory_id());
         }
     }
 
