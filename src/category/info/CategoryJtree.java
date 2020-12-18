@@ -6,9 +6,17 @@
 package category.info;
 
 import category.DAO.CategoryDAO;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import product.entities.Category;
+import product.entities.Product;
+import product.help.SqlQuery;
 
 /**
  *
@@ -31,14 +39,33 @@ public class CategoryJtree extends javax.swing.JFrame {
         DefaultTreeModel defaultTreeModel = (DefaultTreeModel) jTree1.getModel();
         
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("Danh mục");
-        
-        for (Category category : categoryDAO.listCategory()) {
-            DefaultMutableTreeNode  treeNode = new DefaultMutableTreeNode(category);
-            treeNode.setUserObject(category);
-            root.add(treeNode);
+        if (categoryDAO.listCategory() != null) {
+            for (Category category : categoryDAO.listCategory()) {
+                DefaultMutableTreeNode  treeNode = new DefaultMutableTreeNode(category);
+                treeNode.setUserObject(category);
+                root.add(treeNode);
+            }
+        }
+        else{
+            System.out.println("Không có bản ghi !!!");
         }
         defaultTreeModel.setRoot(root);
         jTree1.setModel(defaultTreeModel);
+    }
+    
+    private void loadProduct(int idCat) {
+        DefaultTableModel defaultTableModel = (DefaultTableModel) tblProduct.getModel();
+        defaultTableModel.setRowCount(0);
+        ResultSet rs = SqlQuery.executeQuery("{call productByCategory(?)}", idCat);
+        try {
+            while (rs.next()) {
+                defaultTableModel.addRow(new Object[]{rs.getString("name"), rs.getString("producer"),
+                    rs.getInt("quantity"), rs.getFloat("price"), rs.getFloat("vat"), rs.getString("category")});
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CategoryJtree.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        tblProduct.setModel(defaultTableModel);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -75,7 +102,7 @@ public class CategoryJtree extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Mã", "Tên", "NSX", "Số lương", "Giá", "VAT", "Category Id"
+                "Tên", "NSX", "Số lương", "Giá", "VAT", "Category"
             }
         ));
         jScrollPane2.setViewportView(tblProduct);
@@ -106,7 +133,8 @@ public class CategoryJtree extends javax.swing.JFrame {
     private void jTree1ValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_jTree1ValueChanged
         // TODO add your handling code here:
         DefaultMutableTreeNode selectNode = (DefaultMutableTreeNode) jTree1.getSelectionPath().getLastPathComponent();
-        System.out.println(((Category) selectNode.getUserObject()).getId());
+        int idCat = ((Category) selectNode.getUserObject()).getId();
+        loadProduct(idCat);
     }//GEN-LAST:event_jTree1ValueChanged
 
     /**

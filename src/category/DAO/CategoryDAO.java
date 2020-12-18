@@ -64,9 +64,4 @@ public class CategoryDAO implements ICategoryDAO{
     public void removeCategory(int id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    public static void main(String[] args) {
-        CategoryDAO cdao = new CategoryDAO();
-        cdao.listCategory();
-    }
 }

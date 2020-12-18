@@ -100,3 +100,23 @@ AS
 BEGIN 
 	SELECT * FROM tblCategory
 END
+
+GO
+
+CREATE PROC productByCategory
+@id_cat INT
+AS
+BEGIN 
+	SELECT
+			p.name,
+			p.price,
+			p.producer,
+			p.quantity,
+			p.vat,
+			c.name as category
+	FROM tblProduct p JOIN tblCategory c
+	ON   p.category_id = c.id
+	WHERE c.id = @id_cat
+END
+
+productByCategory 2
