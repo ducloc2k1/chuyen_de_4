@@ -3,14 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-            <file>file:/C:/Users/Hai%20Phuong/Documents/NetBeansProjects/chuyen_de_4/src/product/info/ProductInfo.java</file>
-=======
+            <file>file:/C:/Users/DELL/Documents/NetBeansProjects/chuyen_de_4/src/category/jdialog/ThongBaoDemo.java</file>
+            <file>file:/C:/Users/DELL/Documents/NetBeansProjects/chuyen_de_4/src/category/info/CategoryJtree.java</file>
+            <file>file:/C:/Users/DELL/Documents/NetBeansProjects/chuyen_de_4/src/category/DAO/CategoryDAO.java</file>
             <file>file:/C:/Users/DELL/Documents/NetBeansProjects/chuyen_de_4/src/product/entities/Category.java</file>
             <file>file:/C:/Users/DELL/Documents/NetBeansProjects/chuyen_de_4/src/product/DAO/ProductDAO.java</file>
+            <file>file:/C:/Users/DELL/Documents/NetBeansProjects/chuyen_de_4/src/category/jdialog/ThongBao.java</file>
             <file>file:/C:/Users/DELL/Documents/NetBeansProjects/chuyen_de_4/src/product/info/ProductInfo.java</file>
             <file>file:/C:/Users/DELL/Documents/NetBeansProjects/chuyen_de_4/src/product/entities/Product.java</file>
->>>>>>> ec19d3eb57f877d16b23c27583642b346218a605
         </group>
     </open-files>
 </project-private>
